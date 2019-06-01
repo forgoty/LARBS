@@ -71,3 +71,8 @@ G,https://github.com/lukesmithxyz/st.git,"is my custom build of suckless's termi
 ,docx2txt,"enables .docx file previews in vifm."
 ,odt2txt,"enables .odt file previews in vifm."
 A,spotify, "this is spotify media player"
+A,slack-desktop, "slack client"
+,wget, "tool for easy download files"
+,telegram-desktop, "telegram desktop client"
+,emacs, "emacs IDE"
+

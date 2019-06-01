@@ -17,7 +17,7 @@ esac done
 #[ -z "$dotfilesrepo" ] && dotfilesrepo="https://github.com/lukesmithxyz/voidrice.git"
 [ -z "$dotfilesrepo" ] && dotfilesrepo="https://github.com/forgoty/dotfiles.git"
 #[ -z "$progsfile" ] && progsfile="https://raw.githubusercontent.com/LukeSmithxyz/LARBS/master/progs.csv"
-[ -z "$progsfile" ] && progsfile="https://raw.githubusercontent.com/forgoty/larbs_fork/master/progs.csv?token=AGPE2GEANDUAF7MMQTYKYNS42HDUW"
+[ -z "$progsfile" ] && progsfile="https://raw.githubusercontent.com/forgoty/larbs_fork/master/progs.csv"
 [ -z "$aurhelper" ] && aurhelper="yay"
 
 ### FUNCTIONS ###
@@ -214,6 +214,7 @@ curl "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" > "/h
 dialog --infobox "Installing (neo)vim plugins..." 4 50
 (sleep 30 && killall nvim) &
 sudo -u "$name" nvim -E -c "PlugUpdate|visual|q|q" >/dev/null 2>&1
+git clone https://github.com/syl20bnr/spacemacs /home/$name/.emacs.d
 
 # Enable services here.
 serviceinit NetworkManager cronie
