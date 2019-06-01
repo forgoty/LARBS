@@ -214,7 +214,11 @@ curl "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" > "/h
 dialog --infobox "Installing (neo)vim plugins..." 4 50
 (sleep 30 && killall nvim) &
 sudo -u "$name" nvim -E -c "PlugUpdate|visual|q|q" >/dev/null 2>&1
+
+#Install spacemacs and some .el files to handle gruvbox theme
 git clone https://github.com/syl20bnr/spacemacs /home/$name/.emacs.d
+wget https://raw.githubusercontent.com/magnars/dash.el/master/dash.el -P /home/$name/.emacs.d/
+wget https://raw.githubusercontent.com/sebastiansturm/autothemer/master/autothemer.el -P /home/$name/.emacs.d/
 
 # Enable services here.
 serviceinit NetworkManager cronie
