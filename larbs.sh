@@ -220,8 +220,6 @@ sudo -u "$name" git clone https://github.com/syl20bnr/spacemacs /home/$name/.ema
 curl "https://raw.githubusercontent.com/magnars/dash.el/master/dash.el" > "/home/$name/.emacs.d/dash.el"
 curl "https://raw.githubusercontent.com/sebastiansturm/autothemer/master/autothemer.el" > "/home/$name/.emacs.d/autothemer.el"
 
-#Installing virtualenvwrapper
-sudo - u "$name" pip install virtualenvwrapper --user
 # Enable services here.
 serviceinit NetworkManager cronie
 
