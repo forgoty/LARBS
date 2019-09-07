@@ -105,6 +105,11 @@ pipinstall() { \
 	yes | pip install "$1"
 	}
 
+npminstall() { \
+	dialog --title "LARBS Installation" --infobox "Installing the Nodejs package \`$1\` ($n of $total). $1 $2" 5 70
+	npm install -g $1 >/dev/null 2>&1
+	}
+
 installationloop() { \
 	([ -f "$progsfile" ] && cp "$progsfile" /tmp/progs.csv) || curl -Ls "$progsfile" | sed '/^#/d' > /tmp/progs.csv
 	total=$(wc -l < /tmp/progs.csv)
@@ -117,6 +122,7 @@ installationloop() { \
 			"A") aurinstall "$program" "$comment" ;;
 			"G") gitmakeinstall "$program" "$comment" ;;
 			"P") pipinstall "$program" "$comment" ;;
+			"N") npminstall "$program" "$comment" ;;
 		esac
 	done < /tmp/progs.csv ;}
 
