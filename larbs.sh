@@ -16,7 +16,7 @@ esac done
 
 # DEFAULTS:
 #[ -z "$dotfilesrepo" ] && dotfilesrepo="https://github.com/lukesmithxyz/voidrice.git"
-[ -z "$dotfilesrepo" ] && dotfilesrepo="https://github.com/forgoty/dotfiles.git"
+[ -z "$dotfilesrepo" ] && dotfilesrepo="https://github.com/forgoty/voidrice.git"
 #[ -z "$progsfile" ] && progsfile="https://raw.githubusercontent.com/LukeSmithxyz/LARBS/master/progs.csv"
 [ -z "$progsfile" ] && progsfile="https://raw.githubusercontent.com/forgoty/larbs_fork/master/progs.csv"
 [ -z "$aurhelper" ] && aurhelper="yay"
@@ -130,7 +130,7 @@ npminstall() { \
 installationloop() { \
 	([ -f "$progsfile" ] && cp "$progsfile" /tmp/progs.csv) || curl -Ls "$progsfile" | sed '/^#/d' | eval grep "$grepseq" > /tmp/progs.csv
 	total=$(wc -l < /tmp/progs.csv)
-	aurinstalled=$(pacman -Qm | awk '{print $1}')
+	aurinstalled=$(pacman -Qqm)
 	while IFS=, read -r tag program comment; do
 		n=$((n+1))
 		echo "$comment" | grep "^\".*\"$" >/dev/null 2>&1 && comment="$(echo "$comment" | sed "s/\(^\"\|\"$\)//g")"
@@ -152,6 +152,13 @@ putgitrepo() { # Downlods a gitrepo $1 and places the files in $2 only overwriti
 	sudo -u "$name" git clone -b "$branch" --depth 1 "$1" "$dir/gitrepo" >/dev/null 2>&1 &&
 	sudo -u "$name" cp -rfT "$dir/gitrepo" "$2"
 	}
+
+installspacemacs() { # Install spacemacs and some .el files to handle gruvbox theme
+	sudo -u "$name" git clone https://github.com/syl20bnr/spacemacs /home/$name/.emacs.d
+	curl "https://raw.githubusercontent.com/magnars/dash.el/master/dash.el" > "/home/$name/.emacs.d/dash.el"
+	curl "https://raw.githubusercontent.com/sebastiansturm/autothemer/master/autothemer.el" > "/home/$name/.emacs.d/autothemer.el"
+}
+
 
 systembeepoff() { dialog --infobox "Getting rid of that retarded error beep sound..." 10 50
 	rmmod pcspkr
@@ -188,7 +195,7 @@ preinstallmsg || error "User exited."
 adduserandpass || error "Error adding username and/or password."
 
 # Refresh Arch keyrings.
-refreshkeys || error "Error automatically refreshing Arch keyring. Consider doing so manually."
+# refreshkeys || error "Error automatically refreshing Arch keyring. Consider doing so manually."
 
 dialog --title "LARBS Installation" --infobox "Installing \`basedevel\` and \`git\` for installing other software." 5 70
 installpkg base-devel
@@ -218,11 +225,8 @@ installationloop
 putgitrepo "$dotfilesrepo" "/home/$name" "$repobranch"
 rm -f "/home/$name/README.md" "/home/$name/LICENSE"
 
-
-#Install spacemacs and some .el files to handle gruvbox theme
-sudo -u "$name" git clone https://github.com/syl20bnr/spacemacs /home/$name/.emacs.d
-curl "https://raw.githubusercontent.com/magnars/dash.el/master/dash.el" > "/home/$name/.emacs.d/dash.el"
-curl "https://raw.githubusercontent.com/sebastiansturm/autothemer/master/autothemer.el" > "/home/$name/.emacs.d/autothemer.el"
+# Spacemacs
+installspacemacs
 
 # Most important command! Get rid of the beep!
 systembeepoff
